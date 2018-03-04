@@ -1,2 +1,2 @@
 # notebook
-记录
+通过issues记录一点东西
