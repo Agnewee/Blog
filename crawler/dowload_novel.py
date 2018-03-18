@@ -13,20 +13,13 @@ from bs4 import BeautifulSoup
 
 header = {
          'Accept': 'text/html',
-         'Content-Type': 'text/html',
          'User-Agent': 'Mozilla/5.0'
          }
 
 
-def force_charset(response, *args, encoding='gbk', **kwargs):
-    response.encoding = encoding
-    return None
-
-
 def get_content(resource_url, http_header):
-    res = requests.get(resource_url,
-                       headers=http_header,
-                       hooks={'response': [force_charset]})
+    res = requests.get(resource_url, headers=http_header)
+    res.encoding = 'gbk'
     if res.status_code == 200:
         return res.text
     else:
@@ -39,8 +32,7 @@ def get_sections_url(soup, div_id):
 
 
 base_url = 'http://www.xbiquge.cc'
-# book_id = input('清输入小说书号: ')
-book_id = '24639'
+book_id = input('清输入小说书号: ')
 book_base_url = 'book/{}'.format(book_id)
 url = urljoin(base_url, book_base_url)
 html = get_content(url, header)
@@ -53,10 +45,12 @@ soup = BeautifulSoup(html, 'html.parser')
 book_name = soup.h1.text
 sections_url = get_sections_url(soup, 'list')
 
+
+# TODO: 目前下载速度稍慢，有待优化
 with open('{}.txt'.format(book_name), 'w+') as f:
     for section in sections_url:
         section_url = urljoin(base_url, '{}/{}'.format(book_base_url, section))
-        html = get_content(section_url, header).replace('&nbsp', ' ')
+        html = get_content(section_url, header)
         soup = BeautifulSoup(html, 'html.parser')
         section_name = soup.h1.text
         content = '{}\n{}\n'.format(soup.h1.text, soup.find(id='content').text)
