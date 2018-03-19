@@ -36,7 +36,7 @@ def get_sections_url(soup, div_id):
 
 
 base_url = 'http://www.xbiquge.cc'
-book_id = input('清输入小说书号: ')
+book_id = input('请输入小说书号: ')
 book_base_url = 'book/{}'.format(book_id)
 url = urljoin(base_url, book_base_url)
 html = get_content(url, header)
