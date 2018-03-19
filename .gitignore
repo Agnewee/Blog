@@ -1,4 +1,5 @@
 .idea
+.python-version
 
 *.txt
 *.html

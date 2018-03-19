@@ -1,14 +1,18 @@
 # coding: utf-8
 """
-python 3.6
 小说只能在线观看，有点麻烦，下载到本地保存为txt文本
 下载www.biquge.cc网站的小说
 """
+from __future__ import print_function
 import sys
-from urllib.parse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
+
+if sys.version_info.major > 2:
+    from urllib.parse import urljoin
+else:
+    from urlparse import urljoin
 
 
 header = {
